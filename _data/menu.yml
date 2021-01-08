@@ -1,6 +1,9 @@
 # For documentation on this file, see:
 # https://github.com/riggraz/no-style-please#customize-the-menu
 
+#entries > title / url / post_list
+#url(url이 있으면 title이 특정 url로 이동) 또는 <a> 해도 같은 기능 수행
+#post_list : true로 설정하면 list of posts를 가짐
 entries:
   - title: info
     entries:
