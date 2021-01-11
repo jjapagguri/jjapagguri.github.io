@@ -11,17 +11,36 @@ entries:
       #- title: github repo
       #  url: https://github.com/riggraz/no-style-please
       #- title: "used by <a href='https://riggraz.dev'>riggraz.dev</a> and <a href='https://github.com/riggraz/no-style-please/network/dependents'>many others</a>"
-
-  - title: all posts
-    post_list:
-      limit: 1
-      show_more: true
-      show_more_text: See archive...
-      show_more_url: archive.html
-
-  #- title: posts by category
+      
+  - title: Text Data Augmentation
+    entries:
+      - title: Basic Explanation
+        post_list:
+          category: TDA_Basic
+      - title: Resampling
+      - title: Word-level Transformation
+          entries:
+            -title: Synonym Replacement
+            -title: EDA method
+      - title: Text Generation
+          entries:
+            -title: VAE
+            -title: GAN
+  #       entries:
+  #        - title: with subsubitems
+  #        - title: example page
+  #          url: about    
+      
+  #- title: all posts
   #  post_list:
-  #    category: example2
+  #    limit: 1
+  #    show_more: true
+  #    show_more_text: See archive...
+  #    show_more_url: archive.html
+
+  #- title: Text Data Augmentation
+  #  post_list:
+  #    category: Text Data Augmentation
   #    show_more: true
   #    show_more_text: See more posts...
   #    show_more_url: example2-archive.html
