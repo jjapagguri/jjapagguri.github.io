@@ -1,5 +1,6 @@
 ---
 layout: page
+title: Text Data Augmentation Basic
 category: TDA_Basic
 ---
 
