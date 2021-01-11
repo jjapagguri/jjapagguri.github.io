@@ -21,6 +21,7 @@ entries:
           entries:
             -title: Synonym Replacement
             -title: EDA method
+      - title: Back Translation
       - title: Text Generation
           entries:
             -title: VAE
