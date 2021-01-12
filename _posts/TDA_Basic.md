@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: Text Data Augmentation Basic
 category: TDA_Basic
 ---
