@@ -18,14 +18,14 @@ entries:
           category: TDA_Basic
       - title: Resampling
       - title: Word-level Transformation
-          entries:
-            -title: Synonym Replacement
-            -title: EDA method
+        entries:
+          -title: Synonym Replacement
+          -title: EDA method
       - title: Back Translation
       - title: Text Generation
-          entries:
-            -title: VAE
-            -title: GAN
+        entries:
+          -title: VAE
+          -title: GAN
   #       entries:
   #        - title: with subsubitems
   #        - title: example page
