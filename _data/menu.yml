@@ -5,31 +5,18 @@
 #url(url이 있으면 title이 특정 url로 이동) 또는 <a> 해도 같은 기능 수행
 #post_list : true로 설정하면 list of posts를 가짐
 entries:
-  - title: info
-    entries:
-      - title: 이것저것
+  - title: 이것저것
+   # entries:
+   #   - title: 이것저것
       #  url: https://github.com/riggraz/no-style-please
       #- title: "used by <a href='https://riggraz.dev'>riggraz.dev</a> and <a href='https://github.com/riggraz/no-style-please/network/dependents'>many others</a>"
       
-  - title: Text Data Augmentation
-    entries:
-      - title: Basic Explanation
-        post_list:
-          category: TDA_Basic
-      - title: Resampling
-      - title: Word-level Transformation
-        entries:
-          -title: Synonym Replacement
-          -title: EDA method
-      - title: Back Translation
-      - title: Text Generation
-        entries:
-          -title: VAE
-          -title: GAN
-  #       entries:
-  #        - title: with subsubitems
-  #        - title: example page
-  #          url: about    
+  - title: 텍스트 데이터 레이블이 불균형할 때 편향된(biased) 결과가 나오지 않도록 하기
+    post_list:
+      category: FNC1
+      show_more: true
+      show_more_text: 주간 일지
+      show_more_url: FNC1-archive.html
       
   #- title: all posts
   #  post_list:
