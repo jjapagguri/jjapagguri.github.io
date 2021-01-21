@@ -13,7 +13,7 @@ entries:
       
   - title: 공부하고 있는 ML 및 NLP 모델 이것저것
     post_list:
-      category: STUDY
+      category: MODEL
       show_more: true
   #- title: all posts
   #  post_list:
