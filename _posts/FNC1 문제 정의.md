@@ -1,6 +1,6 @@
 ---
 layout: post
-category: FNC1
+category: STUDY
 ---
 
 **해결하고자 하는 문제**
