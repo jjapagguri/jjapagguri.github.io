@@ -15,7 +15,6 @@ entries:
     post_list:
       category: FNC1
       show_more: true
-      show_more_text: 주간 일지
       show_more_url: FNC1-archive.html
       
   #- title: all posts
