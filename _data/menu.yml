@@ -6,12 +6,12 @@ entries:
     entries:
       -title: Natural Language Processing, Machine Learning
       
-  - title: 연구 내용
+  - title: NLP Task 연구
     post_list:
       category: STUDY
       show_more: true
       
-  - title: 공부 내용
+  - title: NLP, ML MODEL 공부
     post_list:
       category: MODEL
       show_more: true
