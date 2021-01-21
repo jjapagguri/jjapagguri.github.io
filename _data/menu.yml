@@ -4,8 +4,9 @@
 entries:
   - title: 소개
     entries:
-      -title: ..
-<br>  
+      -title: ...
+     
+print('\n')  
   - title: 연구하고 있는 NLP Task
     post_list:
       category: STUDY
