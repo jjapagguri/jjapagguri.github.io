@@ -12,11 +12,11 @@ entries:
       #- title: "used by <a href='https://riggraz.dev'>riggraz.dev</a> and <a href='https://github.com/riggraz/no-style-please/network/dependents'>many others</a>"
       
   - title: 텍스트 데이터 레이블이 불균형할 때 편향된(biased) 결과가 나오지 않도록 하기
-      post_list:
-        limit: 1
-        category: FNC1
-        show_more: true
-        show_more_url: FNC1-archive.html
+    post_list:
+      limit: 1
+      category: FNC1
+      show_more: true
+      show_more_url: FNC1-archive.html
       
   #- title: all posts
   #  post_list:
