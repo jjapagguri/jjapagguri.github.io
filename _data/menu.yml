@@ -4,13 +4,17 @@
 entries:
   - title: 소개
     entries:
-      -title: ...
+      -title: ..
       
-  - title: 공부하고 있는 NLP 문제
+  - title: 연구하고 있는 NLP Task
     post_list:
       category: STUDY
       show_more: true
       
+  - title: 공부하고 있는 ML 및 NLP 모델 이것저것
+    post_list:
+      category: STUDY
+      show_more: true
   #- title: all posts
   #  post_list:
   #    limit: 1
