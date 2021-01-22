@@ -13,6 +13,8 @@ entries:
     post_list:
       category: STUDY
       show_more: true
+      <br/>
+      </br>
       
   - title: NLP, ML MODEL 공부
     post_list:
