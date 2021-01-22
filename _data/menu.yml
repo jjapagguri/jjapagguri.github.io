@@ -4,9 +4,9 @@
 entries:
   - title: 소개
     entries:
-      - title: Natural Language Processing, Machine Learning
+      - title: Natural Language Processing, Machine Learning<br>
       
-  - title: </br>NLP Task 연구
+  - title: NLP Task 연구
     post_list:
       category: STUDY
       show_more: true
