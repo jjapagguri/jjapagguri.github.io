@@ -3,8 +3,9 @@
 
 entries:
   - title: 소개
-    entries:
-      - title: Natural Language Processing, Machine Learning</br>    
+    entries: |
+      - title: Natural Language Processing, Machine Learning
+          </br>
       
   - title: NLP Task 연구
     post_list:
