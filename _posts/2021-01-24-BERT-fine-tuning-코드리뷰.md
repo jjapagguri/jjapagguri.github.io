@@ -4,7 +4,7 @@ category: MODEL
 ---
 
 ## BERT Fine-Tuning이란?
-   BERT는 대용량의 텍스트 코퍼스의 단어 임베딩을 MLM과 NSP 방식을 통해 사전학습한 transformer 모델입니다. MLM과 NSP task를 잘 수행하도록 학습된 BERT는 언어의 맥락적, 문법적 특징을 이해할 수 있다고 여겨집니다. 이와 같이 사전학습된 모델을 다시 해결하고자 하는 타겟 task를 잘 수행하도록 모델의 파라미터를 재조정하는 과정이 fine-tuning 과정입니다.<br/><br/> 이 글에서는 multi-class text classification을 잘하도록 BERT 파라미터를 fine-tuning하는 코드를 리뷰하겠습니다.
+   BERT는 대용량의 텍스트 코퍼스의 단어 임베딩을 MLM과 NSP 방식을 통해 사전학습한 transformer 모델이다. MLM과 NSP task를 잘 수행하도록 학습된 BERT는 언어의 맥락적, 문법적 특징을 이해할 수 있다고 여겨진다. 이와 같이 사전학습된 모델을 다시 해결하고자 하는 타겟 task를 잘 수행하도록 모델의 파라미터를 재조정하는 과정이 fine-tuning 과정입니다.<br/><br/> 이 글에서는 multi-class text classification을 잘하도록 BERT 파라미터를 fine-tuning하는 코드를 리뷰하겠습니다.
 <br/>
 
 ## BERT Fine-tuning의 main함수 구성
@@ -142,8 +142,52 @@ class Transformer(nn.Module):
         return h
 ```
 Transformer(BERT)는 n_layers(주로 12개)만큼의 Block으로 이루어졌다.<br/>
-이때 Block은 기본 Transformer의 encoder 구조이며, MultiHeadedSelfAttention과 PositionWiseFeedForward 과정을 거친다.<br/>결과적으로 Transformer의 output으로는 input 토큰들 간의 중요도와 관련성이 반영된 토큰 임베딩들이 나오게 된다.
+이때 Block은 기본 Transformer의 encoder 구조이며, MultiHeadedSelfAttention과 PositionWiseFeedForward 과정을 거친다.<br/><br/>결과적으로 Transformer의 output으로는 input 토큰들 간의 중요도와 관련성이 반영된 토큰 임베딩들이 나오게 된다.
 
 ### 4. Train 과정
+1) 손실함수와 최적화 방식 정의
+```
+criterion = nn.CrossEntropyLoss()
+optimizer = BertAdam(optimizer_grouped_parameters,
+                     lr=bert_cfg.lr,
+                     warmup=bert_cfg.warmup,
+                     t_total=bert_cfg.total_steps)
+```
+타겟 task가 Multi-Class Classification이기 때문에 CrossEntropyLoss를 손실함수로 사용한다.<br/>
+또한 최적화 방식은 기존 BERT에서 사용하는 Adam Optimizer를 따른다. 이때 warmup은 파라미터 최적화가 이루어짐에 따라 학습률인 lr을 조금씩 줄여가서 loss가 최소가 되는 지점에 최대한 수렴할 수 있도록 돕는 기법이다.
+2) Train 과정
+```
+def train(self, get_loss, pretrain_file=None):
+	""" Train Loop """
+        self.model.train() # train mode
+        self.load(pretrain_file)
+        model = self.model.to(self.device)
+
+        global_step = 0 # global iteration steps regardless of epochs
+        for e in range(self.cfg.n_epochs):
+            loss_sum = 0. 
+            iter_bar = tqdm(self.data_iter, desc='Iter (loss=X.XXX)')
+            for i, batch in enumerate(iter_bar):
+                batch = [t.to(self.device) for t in batch]
+
+                self.optimizer.zero_grad()
+		input_ids, segment_ids, input_mask, label_id = batch
+		logits = model(input_ids, segment_ids, input_mask)
+                loss = criterion(logits, label_id)
+                loss.backward()
+                self.optimizer.step()
+
+                global_step += 1
+                loss_sum += loss.item()
+                iter_bar.set_description('Iter (loss=%5.3f)'%loss.item()
+
+            print('Epoch %d/%d : Average Loss %5.3f'%(e+1, self.cfg.n_epochs, loss_sum/(i+1)))
+        self.save(global_step)
+```
+train함수에서는
+- 사전학습된 BERT의 파라미터를 pretrain_file로 **load**
+- n_epochs만큼 전체 학습 데이터를 학습한다.
+- 이때 batch마다 손실함수를 계산하고, 파라미터를 최적화하는 과정을 거친다.
+- train 과정이 끝나면 fine-tuned된 모델의 파라미터를 **save**
 
 ### 5. Eval 과정
