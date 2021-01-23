@@ -75,8 +75,39 @@ pipeline을 통해 data_file에 있는 텍스트 데이터를 숫자 형태로 �
 
 3) DataLoader 정의
 
+```
+data_iter = DataLoader(dataset, batch_size=bert_cfg.batch_size, shuffle=True)
+```
+train과 eval 과정에 사용될 DataLoader를 정의합니다.
 
 ### 3. Model 정의
+```
+model = Classifier(model_cfg, len(TaskDataset.labels))
+```
+1) Classifier 구성
+
+```
+class Classifier(nn.Module):
+    """ Classifier with Transformer """
+    def __init__(self, cfg, n_labels):
+        super().__init__()
+        self.transformer = models.Transformer(cfg)  #BERT의 마지막 layer output 반환
+        self.fc = nn.Linear(cfg.dim, cfg.dim)
+        self.activ = nn.Tanh()
+        self.drop = nn.Dropout(cfg.p_drop_hidden)
+        self.classifier = nn.Linear(cfg.dim, n_labels)
+
+    def forward(self, input_ids, segment_ids, input_mask):
+        h = self.transformer(input_ids, segment_ids, input_mask)
+        # only use the first h in the sequence
+        pooled_h = self.activ(self.fc(h[:, 0]))  #h의 0번째 토큰 임베딩, 즉 CLS 토큰으로 classification
+        logits = self.classifier(self.drop(pooled_h))
+        return logits
+```
+Text Classification Model은 BERT와 FC Layer 2개로 구성되어 있습니다.<br/>
+최종 분류에는 BERT 마지막 layer의 CLS 토큰이 사용된다.
+
+2) BERT (models.Transformer) 구성
 
 ### 4. Train 과정
 
