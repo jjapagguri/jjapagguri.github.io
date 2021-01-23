@@ -7,7 +7,8 @@ category: MODEL
    BERT는 대용량의 텍스트 코퍼스의 단어 임베딩을 MLM과 NSP 방식을 통해 사전학습한 transformer 모델이다. MLM과 NSP task를 잘 수행하도록 학습된 BERT는 언어의 맥락적, 문법적 특징을 이해할 수 있다고 여겨진다. 이와 같이 사전학습된 모델을 다시 해결하고자 하는 타겟 task를 잘 수행하도록 모델의 파라미터를 재조정하는 과정이 fine-tuning 과정이다.<br/><br/> 이 글에서는 multi-class text classification을 잘하도록 BERT 파라미터를 fine-tuning하는 코드를 리뷰한다.
 <br/>
 
-## BERT Fine-tuning의 main함수 구성
+## [BERT Fine-tuning의 main함수 구성](#main)
+- [BERT Fine-tuning의 main함수 구성](#main)
 - [Configuration 초기화](#config)
 - [DataLoader 만들기](#dataload)
 - [Model 정의](#model)
@@ -197,7 +198,7 @@ train 함수에서는
 - train 과정이 끝나면 fine-tuned된 모델의 파라미터를 **save**
 과정을 거친다.
 
-### 5. [Eval 과정](#eval)
+### 5. [Eval 과정]
 1) Evaluation 방식 정의
 ```
 def evaluate(model, batch):
