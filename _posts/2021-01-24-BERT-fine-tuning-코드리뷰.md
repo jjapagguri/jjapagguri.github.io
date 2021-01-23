@@ -8,8 +8,13 @@ category: MODEL
 <br/>
 
 ## BERT Fine-tuning의 main함수 구성
+- [1. Configuration 초기화](#config)
+- [2. DataLoader 만들기](#dataload)
+- [3. Model 정의](#model)
+- [4. Train 과정](#train)
+- [5. Eval 과정](#eval)
 
-### 1. Configuration 초기화
+### [1. Configuration 초기화](#config)
 1) BERT 자체 configuration 정의
 ```
 bert_cfg = train.Config.from_json(train_cfg)
@@ -50,7 +55,7 @@ BERT fine-tuning 과정은 모델을 타겟 task로 재학습시키는 과정이
 }
 
 
-### 2. DataLoader 만들기
+### [2. DataLoader 만들기](#dataload)
 1) Tokenizer 정의
 ```
 tokenizer = tokenization.FullTokenizer(vocab_file=vocab, do_lower_case=True)
@@ -80,7 +85,7 @@ data_iter = DataLoader(dataset, batch_size=bert_cfg.batch_size, shuffle=True)
 ```
 train과 eval 과정에 사용될 DataLoader를 정의한다.
 
-### 3. Model 정의
+### [3. Model 정의](#model)
 ```
 model = Classifier(model_cfg, len(TaskDataset.labels))
 ```
@@ -144,7 +149,7 @@ class Transformer(nn.Module):
 Transformer(BERT)는 n_layers(주로 12개)만큼의 Block으로 이루어졌다.<br/>
 이때 Block은 기본 Transformer의 encoder 구조이며, MultiHeadedSelfAttention과 PositionWiseFeedForward 과정을 거친다.<br/><br/>결과적으로 Transformer의 output으로는 input 토큰들 간의 중요도와 관련성이 반영된 토큰 임베딩들이 나오게 된다.
 
-### 4. Train 과정
+### [4. Train 과정](#train)
 1) 손실함수와 최적화 방식 정의
 ```
 criterion = nn.CrossEntropyLoss()
@@ -192,7 +197,7 @@ train 함수에서는
 - train 과정이 끝나면 fine-tuned된 모델의 파라미터를 **save**
 과정을 거친다.
 
-### 5. Eval 과정
+### [5. Eval 과정](#eval)
 1) Evaluation 방식 정의
 ```
 def evaluate(model, batch):
@@ -246,3 +251,5 @@ eval 함수에서는
 - 파라미터 조정을 하지 않도록 no_grad() 상태에서
 - 예측 결과와 eval 평가를 반환
 과정을 거친다.
+
+코드 리뷰는 https://github.com/dhlee347/pytorchic-bert을 바탕으로 작성했습니다.
