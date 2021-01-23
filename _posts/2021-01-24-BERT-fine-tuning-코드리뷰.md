@@ -91,7 +91,8 @@ class Classifier(nn.Module):
     """ Classifier with Transformer """
     def __init__(self, cfg, n_labels):
         super().__init__()
-        self.transformer = models.Transformer(cfg)  #BERT의 마지막 layer output 반환
+	#BERT의 마지막 layer output 반환
+        self.transformer = models.Transformer(cfg)
         self.fc = nn.Linear(cfg.dim, cfg.dim)
         self.activ = nn.Tanh()
         self.drop = nn.Dropout(cfg.p_drop_hidden)
@@ -99,8 +100,8 @@ class Classifier(nn.Module):
 
     def forward(self, input_ids, segment_ids, input_mask):
         h = self.transformer(input_ids, segment_ids, input_mask)
-        # only use the first h in the sequence
-        pooled_h = self.activ(self.fc(h[:, 0]))  #h의 0번째 토큰 임베딩, 즉 CLS 토큰으로 classification
+        #h의 0번째 토큰 임베딩, 즉 CLS 토큰 사용
+        pooled_h = self.activ(self.fc(h[:, 0]))
         logits = self.classifier(self.drop(pooled_h))
         return logits
 ```
@@ -108,6 +109,7 @@ Text Classification Model은 BERT와 FC Layer 2개로 구성되어 있습니다.
 최종 분류에는 BERT 마지막 layer의 CLS 토큰이 사용된다.
 
 2) BERT (models.Transformer) 구성
+
 
 ### 4. Train 과정
 
