@@ -69,9 +69,9 @@ dataset = TaskDataset(data_file, pipeline)
 ```
 dataset에는 텍스트 데이터들이 (input_ids, segment_ids, input_mask, label_id)의 형태로 존재합니다. <br/>
 pipeline을 통해 data_file에 있는 텍스트 데이터를 숫자 형태로 바꾸고 토큰화하는 과정을 순서대로 진행합니다.<br/>
-- Tokenizing 함수 :
-- AddSpeicalTokenWithTruncation 함수 :
-- TokenIndexing 함수 : 
+- Tokenizing 함수 : 텍스트 데이터를 유니코드 형식으로 변경한 후, tokenization 과정을 거칩니다. --> returns (label, tokens_a, tokens_b)
+- AddSpeicalTokenWithTruncation 함수 : BERT는 transformer로 구성된 모델이기 때문에 input 데이터의 길이가 일정해야 합니다. 이 함수에서는 max_len에 따라 *token_a + token_b < max_len*이 충족되도록 데이터 일정 부분을 잘라냅니다. --> returns (label, ['[CLS]' + tokens_a + '[SEP]'], [tokens_b + '[SEP]'])
+- TokenIndexing 함수 : 유니코드로 나타냈던 토큰들을 사전학습에 사용된 대용량 코퍼스 단어들의 인덱스로 변경합니다. 또한 BERT 학습에 필요한 segment_ids와 input_mask을 데이터 별로 생성합니다. --> returns (input_ids, segment_ids, input_mask, label_id)
 
 3) DataLoader 정의
 
