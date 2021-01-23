@@ -67,7 +67,11 @@ pipeline = [Tokenizing(tokenizer.convert_to_unicode, tokenizer.tokenize),
             TaskDataset.labels, max_len)]
 dataset = TaskDataset(data_file, pipeline)
 ```
-dataset에는 토큰화된 [CLS] + text_a + [SEP] + text_b + [SEP] 형태의 데이터들이 존재합니다.
+dataset에는 텍스트 데이터들이 (input_ids, segment_ids, input_mask, label_id)의 형태로 존재합니다. <br/>
+pipeline을 통해 data_file에 있는 텍스트 데이터를 숫자 형태로 바꾸고 토큰화하는 과정을 순서대로 진행합니다.<br/>
+- Tokenizing 함수 :
+- AddSpeicalTokenWithTruncation 함수 :
+- TokenIndexing 함수 : 
 
 3) DataLoader 정의
 
