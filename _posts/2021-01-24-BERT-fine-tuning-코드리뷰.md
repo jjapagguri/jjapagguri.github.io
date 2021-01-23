@@ -8,11 +8,11 @@ category: MODEL
 <br/>
 
 ## BERT Fine-tuning의 main함수 구성
-- 1. [Configuration 초기화](#config)
-- 2. [DataLoader 만들기](#dataload)
-- 3. [Model 정의](#model)
-- 4. [Train 과정](#train)
-- 5. [Eval 과정](#eval)
+ 1. [Configuration 초기화](#config)
+ 2. [DataLoader 만들기](#dataload)
+ 3. [Model 정의](#model)
+ 4. [Train 과정](#train)
+ 5. [Eval 과정](#eval)
 
 ### 1. [Configuration 초기화](#config)
 1) BERT 자체 configuration 정의
