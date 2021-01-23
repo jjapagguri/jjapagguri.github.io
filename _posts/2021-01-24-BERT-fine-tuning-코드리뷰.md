@@ -16,7 +16,7 @@ bert_cfg = train.Config.from_json(train_cfg)
 ```
 BERT를 사용하기 위해서는 기존에 사전학습에 사용된 하이퍼파라미터들이 필요합니다. 임베딩 차원(dim), 모델 구성 layer의 수(n_layers), input 데이터의 최대 길이(max_len) 등의 configuration을 정의해줍니다.
 
-> bert_cfg 구성
+> bert_cfg 구성<br/>
 {
         "dim": 768,
 	"dim_ff": 3072,
@@ -37,8 +37,7 @@ model_cfg = models.Config.from_json(model_cfg)
 ```
 BERT fine-tuning 과정은 모델을 타겟 task로 재학습시키는 과정입니다. 학습을 위해서는 seed값, bacth 크기(batch_size), 학습률(lr) 등의 하이퍼파라미터를 정의가 필요한데, 이는 model_cfg로 초기화해줍니다.
 
-```
-#model_cfg 구성
+> model_cfg 구성<br/>
 {
     "seed": 92,
     "batch_size": 32,
@@ -48,7 +47,6 @@ BERT fine-tuning 과정은 모델을 타겟 task로 재학습시키는 과정입
     "save_steps": 500,
     "total_steps": 6000
 }
-```
 
 And here is some `inline code`!
 
