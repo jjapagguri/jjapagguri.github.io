@@ -70,7 +70,7 @@ dataset = TaskDataset(data_file, pipeline)
 dataset에는 텍스트 데이터들이 (input_ids, segment_ids, input_mask, label_id)의 형태로 존재합니다. <br/>
 pipeline을 통해 data_file에 있는 텍스트 데이터를 숫자 형태로 바꾸고 토큰화하는 과정을 순서대로 진행합니다.<br/>
 - Tokenizing 함수 : 텍스트 데이터를 유니코드 형식으로 변경한 후, tokenization 과정을 거칩니다. --> returns (label, tokens_a, tokens_b)
-- AddSpeicalTokenWithTruncation 함수 : BERT는 transformer로 구성된 모델이기 때문에 input 데이터의 길이가 일정해야 합니다. 이 함수에서는 max_len에 따라 *token_a + token_b < max_len*이 충족되도록 데이터 일정 부분을 잘라냅니다. --> returns (label, ['[CLS]' + tokens_a + '[SEP]'], [tokens_b + '[SEP]'])
+- AddSpeicalTokenWithTruncation 함수 : BERT는 transformer로 구성된 모델이기 때문에 input 데이터의 길이가 일정해야 합니다. 이 함수에서는 max_len에 따라 *token_a + token_b <= max_len*이 충족되도록 데이터 일정 부분을 잘라냅니다. --> returns (label, ['[CLS]' + tokens_a + '[SEP]'], [tokens_b + '[SEP]'])
 - TokenIndexing 함수 : 유니코드로 나타냈던 토큰들을 사전학습에 사용된 대용량 코퍼스 단어들의 인덱스로 변경합니다. 또한 BERT 학습에 필요한 segment_ids와 input_mask을 데이터 별로 생성합니다. --> returns (input_ids, segment_ids, input_mask, label_id)
 
 3) DataLoader 정의
@@ -109,7 +109,40 @@ Text Classification Model은 BERT와 FC Layer 2개로 구성되어 있습니다.
 최종 분류에는 BERT 마지막 layer의 CLS 토큰이 사용된다.
 
 2) BERT (models.Transformer) 구성
+```
+class Block(nn.Module):
+    """ Transformer Block """
+    def __init__(self, cfg):
+        super().__init__()
+        self.attn = MultiHeadedSelfAttention(cfg)
+        self.proj = nn.Linear(cfg.dim, cfg.dim)
+        self.norm1 = LayerNorm(cfg)
+        self.pwff = PositionWiseFeedForward(cfg)
+        self.norm2 = LayerNorm(cfg)
+        self.drop = nn.Dropout(cfg.p_drop_hidden)
 
+    def forward(self, x, mask):
+        h = self.attn(x, mask)
+        h = self.norm1(x + self.drop(self.proj(h)))
+        h = self.norm2(h + self.drop(self.pwff(h)))
+        return h
+
+
+class Transformer(nn.Module):
+    """ Transformer with Self-Attentive Blocks"""
+    def __init__(self, cfg):
+        super().__init__()
+        self.embed = Embeddings(cfg)
+        self.blocks = nn.ModuleList([Block(cfg) for _ in range(cfg.n_layers)])
+
+    def forward(self, x, seg, mask):
+        h = self.embed(x, seg)
+        for block in self.blocks:
+            h = block(h, mask)
+        return h
+```
+Transformer(BERT)는 n_layers(주로 12개)만큼의 Block으로 이루어졌다.<br/>
+이때 Block은 기본 Transformer의 encoder 구조이며, MultiHeadedSelfAttention과 PositionWiseFeedForward 과정을 거친다.<br/>결과적으로 Transformer의 output으로는 input 토큰들 간의 중요도와 관련성이 반영된 토큰 임베딩들이 나오게 된다.
 
 ### 4. Train 과정
 
