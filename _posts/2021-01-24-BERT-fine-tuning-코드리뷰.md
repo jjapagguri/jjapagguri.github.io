@@ -185,10 +185,64 @@ def train(self, get_loss, pretrain_file=None):
             print('Epoch %d/%d : Average Loss %5.3f'%(e+1, self.cfg.n_epochs, loss_sum/(i+1)))
         self.save(global_step)
 ```
-train함수에서는
+train 함수에서는
 - 사전학습된 BERT의 파라미터를 pretrain_file로 **load**
 - n_epochs만큼 전체 학습 데이터를 학습한다.
-- 이때 batch마다 손실함수를 계산하고, 파라미터를 최적화하는 과정을 거친다.
+- 이때 batch마다 손실함수를 계산하고, 파라미터를 최적화한다.
 - train 과정이 끝나면 fine-tuned된 모델의 파라미터를 **save**
+과정을 거친다.
 
 ### 5. Eval 과정
+1) Evaluation 방식 정의
+```
+def evaluate(model, batch):
+            input_ids, segment_ids, input_mask, label_id = batch
+            logits = model(input_ids, segment_ids, input_mask)
+            pred_val, label_pred = logits.max(1)
+
+            result = (label_pred == label_id).float() #.cpu().numpy()
+            accuracy = result.mean()
+
+            y_pred = torch.zeros_like(logits)
+            y_true = torch.zeros_like(logits)
+            y_pred.scatter_(1, torch.tensor(label_pred).view(-1, 1), 1)
+            y_true.scatter_(1, torch.tensor(label_id).view(-1, 1), 1)
+
+            y_true = y_true.cpu().numpy()
+            y_pred = y_pred.cpu().numpy()
+
+            labels = ("disagree", "agree", "discuss", "unrelated")
+            f1_disagree, f1_agree, f1_discuss, f1_unrelated = f1_score(y_true, y_pred, average = None)
+            f1_s = f1_score(y_true, y_pred, average='samples')
+            batch_f1score={'f1_score': f1_s, 'f1_disagree':f1_disagree, 'f1_agree': f1_agree, 'f1_discuss': f1_discuss, 'f1_unrelated': f1_unrelated}
+            return accuracy, result, batch_f1score
+```
+위 evaluation 함수에서는 accuracy와 class 별 f1score를 성능 평가에 사용한다.
+
+2) Eval 과정
+
+```
+def eval(self, evaluate, model_file):
+        """ Evaluation Loop """
+        self.model.eval() # evaluation mode
+        self.load(model_file, None)
+        model = self.model.to(self.device)
+
+        results = [] # prediction results
+        scores = {'f1_score': 0, 'f1_disagree': 0, 'f1_agree': 0, 'f1_discuss': 0, 'f1_unrelated': 0}
+        iter_bar = tqdm(self.data_iter, desc='Iter (loss=X.XXX)')
+        for batch in iter_bar:
+            batch = [t.to(self.device) for t in batch]
+            with torch.no_grad(): # evaluation without gradient calculation
+                accuracy, result, batch_f1score = evaluate(model, batch)
+            results.append(result)
+            
+            iter_bar.set_description('Iter(acc=%5.3f)'%accuracy)
+
+        return results, scores
+```
+eval 함수에서는
+- fine-tuned BERT의 파라미터를 model_file로 **load**
+- 파라미터 조정을 하지 않도록 no_grad() 상태에서
+- 예측 결과와 eval 평가를 반환
+과정을 거친다.
