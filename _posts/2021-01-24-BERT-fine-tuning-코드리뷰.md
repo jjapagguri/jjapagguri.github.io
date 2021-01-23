@@ -14,7 +14,8 @@ category: MODEL
 ```
 bert_cfg = train.Config.from_json(train_cfg)
 ```
-BERT를 사용하기 위해서는 기존에 사전학습에 사용된 하이퍼파라미터들이 필요합니다. 임베딩 차원(dim), 모델 구성 layer의 수(n_layers), input 데이터의 최대 길이(max_len) 등의 configuration을 정의해줍니다.
+BERT를 사용하기 위해서는 기존에 사전학습에 사용된 하이퍼파라미터들이 필요합니다. 임베딩 차원(dim), 모델 구성 layer의 수(n_layers), input 데이터의 최대 길이(max_len) 등의 configuration을 정의해줍니다.<br/>
+위 코드에서는 train_cfg의 json파일에 딕셔너리 형태로 정의된 configuration을 로드합니다.
 
 > bert_cfg 구성<br/>
 {
@@ -52,6 +53,9 @@ And here is some `inline code`!
 
 ### 2. DataLoader 만들기
 1) Tokenizer 정의
+```
+tokenizer = tokenization.FullTokenizer(vocab_file=vocab, do_lower_case=True)
+```
 
 2) Tokenization 과정
 
