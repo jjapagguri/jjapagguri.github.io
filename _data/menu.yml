@@ -2,22 +2,26 @@
 # https://github.com/riggraz/no-style-please#customize-the-menu
 
 entries:
-  - title: 소개
+  - title: 관심 분야
     entries:
-      - title: |
-          Natural Language Processing, Machine Learning
+      - title: Natural Language Processing, Machine Learning
           <br/>
           </br>
       
-  - title: NLP Task 연구
+  - title: 개인 연구
     post_list:
       category: STUDY
       show_more: true
+    entries:
+      - title: EMAIL : gguriskku@gmail.com
+          <br/>
+          </br>
       
   - title: NLP, ML MODEL 공부
     post_list:
       category: MODEL
       show_more: true
+      
   #- title: all posts
   #  post_list:
   #    limit: 1
