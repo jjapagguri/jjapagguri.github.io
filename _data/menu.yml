@@ -8,16 +8,13 @@ entries:
           <br/>
           </br>
       
-  - title: 개인 연구
+  - title: 연구
     post_list:
       category: STUDY
       show_more: true
-    entries:
-      - title: EMAIL : gguriskku@gmail.com
-          <br/>
-          </br>
+    
       
-  - title: NLP, ML MODEL 공부
+  - title: 공부
     post_list:
       category: MODEL
       show_more: true
