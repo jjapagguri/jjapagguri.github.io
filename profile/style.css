@@ -1,7 +1,11 @@
-body{
-    padding: 0;
-    margin: 0;
-    display: flex;
+html {
+  line-height: 1.15;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+a {
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
 }
 
 #message-container {
