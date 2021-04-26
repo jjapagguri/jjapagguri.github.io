@@ -32,8 +32,3 @@ body{
 #message-input{
     flex-grow: 1;
 }
-
-a {
-    background-color: transparent;
-    -webkit-text-decoration-skip: objects;
-}
