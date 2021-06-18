@@ -7,13 +7,7 @@ entries:
       - title: Natural Language Processing, Machine Learning
           <br/>
           </br>
-      
-  - title: 연구
-    post_list:
-      category: STUDY
-      show_more: true
-    
-      
+     
   - title: 공부
     post_list:
       category: MODEL
