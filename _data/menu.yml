@@ -4,23 +4,13 @@
 entries:
   - title: gguri in NLP lab
     entries:
-      - title: a (nearly) no-CSS, fast, minimalist Jekyll theme.
-      - title: github repo
-        url: https://github.com/riggraz/no-style-please
-
-  - title: all posts
-    post_list:
-      limit: 5
-      show_more: true
-      show_more_text: See archive...
-      show_more_url: archive.html
+      - title: interested in natural language processing, machine learning
+     </br>
 
   - title: posts by category
     post_list:
       category: example2
       show_more: true
-      show_more_text: See more posts...
-      show_more_url: example2-archive.html
 
   - title: rss
     url: feed.xml
